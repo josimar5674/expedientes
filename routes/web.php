@@ -62,5 +62,5 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('usuarios', UserController::class)
     ->middleware(['auth', 'admin']);
 });
-
+Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
 require __DIR__.'/auth.php';

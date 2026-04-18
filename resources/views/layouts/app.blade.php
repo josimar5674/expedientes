@@ -65,17 +65,36 @@
     </span>
 
     <!-- MENU -->
-    <div id="menu-user" style="
-        display:none;
-        position:absolute;
-        right:0;
-        top:35px;
-        background:white;
-        color:black;
-        border-radius:5px;
-        min-width:150px;
-        box-shadow:0 2px 8px rgba(0,0,0,0.2);
-    ">
+   <div id="menu-user" style="
+    display:none;
+    position:absolute;
+    right:0;
+    top:35px;
+    background:white;
+    color:black;
+    border-radius:5px;
+    min-width:150px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.2);
+">
+
+    <a href="{{ route('profile.edit') }}" style="display:block; padding:10px; text-decoration:none; color:black;">
+        Perfil
+    </a>
+
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" style="
+            width:100%;
+            text-align:left;
+            padding:10px;
+            background:none;
+            border:none;
+            cursor:pointer;
+        ">
+            Cerrar sesión
+        </button>
+    </form>
+
 </div>
     </div>
 
