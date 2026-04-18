@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* RESET BÁSICO */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f5f7fb;
+}
+
+/* CONTENEDOR GENERAL */
+.main-container {
+    display: flex;
+    height: 100%; /* NO 100vh */
+}
+
+.sidebar {
+    width: 280px;
+    overflow-y: auto;
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar h3 {
+    padding: 15px;
+    margin: 0;
+    border-bottom: 1px solid #334155;
+}
+
+.exp-list {
+    overflow-y: auto;
+}
+
+.exp-item {
+    padding: 12px;
+    border-bottom: 1px solid #334155;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.exp-item:hover {
+    background: #334155;
+}
+
+.exp-item.active {
+    background: #3b82f6;
+}
+
+/* 🔸 PANEL DERECHO */
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background: #22c55e;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* CARDS (SECCIONES) */
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* GRID PARA FORMULARIOS */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* INPUTS */
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* ITEMS */
+.list-item {
+    border-left: 4px solid #3b82f6;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #f9fafb;
+    border-radius: 6px;
+}
