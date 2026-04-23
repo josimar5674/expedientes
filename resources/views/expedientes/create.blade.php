@@ -55,6 +55,17 @@
                     class="w-full border rounded p-2">
             </div>
 
+            <!-- Asignado -->
+             <div class="mb-4">
+                <label>Asignado</label>
+                <input type="text" name="asignado"
+                    value="{{ old('asignado') }}"
+                    class="w-full border rounded p-2">
+            </div>
+
+
+         
+
             <!-- Pretensión -->
             <div class="mb-4">
                 <label>Pretensión Principal</label>

@@ -14,6 +14,11 @@ function cancelarEdicion() {
     document.getElementById('modo-edicion').style.display = 'none';
     document.getElementById('modo-vista').style.display = 'grid';
 }
+
+function toggleForm(id) {
+    let form = document.getElementById('form-' + id);
+    form.classList.toggle('hidden');
+}
 </script>
 
 <div class="main-container">
@@ -65,13 +70,14 @@ function cancelarEdicion() {
     <!-- 👀 MODO VISTA -->
     <div id="modo-vista" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
 
-        <p><strong>Expediente:</strong> #{{ $expedienteSeleccionado->numero_expediente }}</p>
+        <p><strong>Expediente:</strong> {{ $expedienteSeleccionado->numero_expediente }}</p>
         <p><strong>Tipo:</strong> {{ $expedienteSeleccionado->tipo_tramite }}</p>
 
         <p><strong>Matrícula:</strong> {{ $expedienteSeleccionado->matricula }}</p>
         <p><strong>Sede:</strong> {{ $expedienteSeleccionado->sede }}</p>
-
+    
         <p><strong>Cuantía:</strong> L {{ number_format($expedienteSeleccionado->cuantia, 2) }}</p>
+        <p><strong>Asignado:</strong> {{ $expedienteSeleccionado->asignado ?? 'N/A' }}</p>
         <p><strong>Fecha:</strong> {{ $expedienteSeleccionado->fecha_presentacion }}</p>
 
         <p><strong>Pretensión:</strong> {{ $expedienteSeleccionado->pretension_principal }}</p>
@@ -138,6 +144,16 @@ function cancelarEdicion() {
             bg-white text-black 
             dark:bg-gray-700 dark:text-white dark:border-gray-600">
     </div>
+
+        <div>
+        <label>Asignado</label>
+        <input type="text" name="asignado" 
+            value="{{ $expedienteSeleccionado->asignado }}" 
+            class="border p-2 rounded w-full 
+            bg-white text-black 
+            dark:bg-gray-700 dark:text-white dark:border-gray-600">
+    </div>
+
 
     <div>
         <label>Cuantía</label>
@@ -238,9 +254,10 @@ function cancelarEdicion() {
 
                     <div class="form-grid">
                        <select name="tipo" class="border p-2 rounded w-full bg-white text-black dark:bg-gray-700 dark:text-white dark:border-gray-600">
-                            <option value="activo">Activo</option>
-                            <option value="pasivo">Pasivo</option>
-                            <option value="apoderado">Apoderado</option>
+                            <option value="sujeto activo">Sujeto  Activo</option>
+                            <option value="sujeto pasivo">Sujeto Pasivo</option>
+                            <option value="apoderado activo">Apoderado Activo</option>
+                            <option value="apoderado pasivo">Apoderado Pasivo</option>
                         </select>
 
                         <input type="text" name="nombre" class="border p-2 rounded w-full bg-white text-black dark:bg-gray-700 dark:text-white" placeholder="Nombre">
@@ -252,21 +269,77 @@ function cancelarEdicion() {
                 </form>
 
                 <br>
+@foreach ($expedienteSeleccionado->sujetos as $sujeto)
 
-                @foreach ($expedienteSeleccionado->sujetos as $sujeto)
-                    <div class="list-item bg-white text-black dark:bg-gray-700 dark:text-white p-2 rounded mb-2">
-                        <strong>{{ strtoupper($sujeto->tipo) }}</strong><br>
-                        {{ $sujeto->nombre }}<br>
-                        <small>{{ $sujeto->identificacion }}</small>
-                    </div>
-                @endforeach
+<div class="bg-white dark:bg-gray-700 p-4 rounded mb-3 shadow-sm">
+
+    <!-- INFO DEL SUJETO -->
+    <div class="mb-2">
+        <strong class="text-sm text-blue-600">
+            {{ strtoupper($sujeto->tipo) }}
+        </strong><br>
+
+        <span class="font-semibold">
+            {{ $sujeto->nombre }}
+        </span><br>
+
+        <small class="text-gray-500">
+            ID: {{ $sujeto->identificacion ?? '—' }} |
+            CAH: {{ $sujeto->cah ?? '—' }}
+        </small>
     </div>
+
+    <!-- DOCUMENTOS -->
+    <div class="flex flex-wrap items-center gap-2 mt-2">
+
+        @foreach ($sujeto->documentos as $index => $doc)
+            <a href="{{ route('documentos.archivo', $doc->id) }}" target="_blank"
+               class="bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded text-sm hover:bg-gray-300">
+               📄 {{ $doc->titulo }}
+            </a>
+        @endforeach
+
+        <!-- BOTÓN DISCRETO -->
+        <button onclick="toggleForm({{ $sujeto->id }})"
+            class="bg-green-500 text-white px-2 py-1 rounded text-sm hover:bg-green-600">
+            +📄
+        </button>
+
+    </div>
+
+    <!-- FORM OCULTO -->
+    <div id="form-{{ $sujeto->id }}" class="hidden mt-3">
+
+        <form method="POST" 
+            action="{{ route('expedientes.documentos.store', $expedienteSeleccionado->id) }}" 
+            enctype="multipart/form-data"
+            class="flex gap-2">
+
+            @csrf
+            <input type="hidden" name="sujeto_id" value="{{ $sujeto->id }}">
+
+            <input type="text" name="titulo" placeholder="Título"
+                class="border p-1 rounded text-sm w-1/3">
+
+            <input type="file" name="archivo"
+                class="text-sm">
+
+            <button class="bg-blue-500 text-white px-2 py-1 rounded text-sm">
+                Subir
+            </button>
+
+        </form>
+    </div>
+
+</div>
+
+@endforeach    </div>
 
     <!-- 📎 DOCUMENTOS -->
 <div class="bg-white dark:bg-gray-800 p-4">
     
 
-                 <h3>📎 Documentos</h3>
+                 <h3>⚖️ Procuración y Documentos</h3>
 
                 <form method="POST" 
                     action="{{ route('expedientes.documentos.store', $expedienteSeleccionado->id) }}" 
@@ -276,8 +349,19 @@ function cancelarEdicion() {
                     <div class="form-grid">
                        <input type="date" name="fecha" class="border p-2 rounded w-full bg-white text-black dark:bg-gray-700 dark:text-white">
                         <input type="text" name="titulo" class="border p-2 rounded w-full bg-white text-black dark:bg-gray-700 dark:text-white" placeholder="Título">
-                        <input type="text" name="descripcion" class="border p-2 rounded w-full bg-white text-black dark:bg-gray-700 dark:text-white" placeholder="Descripción">
                         <input type="file" name="archivo" class="border p-2 rounded w-full bg-white text-black dark:bg-gray-700 dark:text-white">
+                     <div style="grid-column: span 2;">
+                    <label class="text-sm text-gray-600 dark:text-gray-300">
+                        Descripción
+                    </label>
+
+                    <textarea name="descripcion" rows="3"
+                        class="border p-2 rounded w-full 
+                        bg-white text-black 
+                        dark:bg-gray-700 dark:text-white dark:border-gray-600
+                        resize-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="Detalle..."></textarea>
+                </div>
                     </div>
 
                     <button class="btn">Guardar</button>
@@ -285,15 +369,22 @@ function cancelarEdicion() {
 
                 <br>
 
-                @foreach ($expedienteSeleccionado->documentos->sortByDesc('fecha') as $doc)
+                @foreach ($expedienteSeleccionado->documentos->whereNull('sujeto_id')->sortByDesc('fecha') as $doc)
                    <div class="list-item bg-white text-black dark:bg-gray-700 dark:text-white p-2 rounded mb-2">
                         <strong>{{ $doc->titulo }}</strong><br>
                         <small>{{ $doc->fecha }}</small><br>
                         <p>{{ $doc->descripcion }}</p>
 
-                        <a href="{{ asset('storage/' . $doc->archivo) }}" target="_blank">
-                            Ver Documento 📄
-                        </a>
+                     
+
+
+                        @if ($doc->archivo)
+                         <a href="{{ route('documentos.archivo', $doc->id) }}" target="_blank">
+                         Ver Documento 📄
+                             </a>
+                            @else
+                                <span class="text-gray-400">Sin archivo</span>
+                            @endif
                     </div>
                 @endforeach
     </div>
@@ -327,7 +418,7 @@ function cancelarEdicion() {
                         {{ $mov->descripcion }}<br>
 
                         @if ($mov->archivo)
-                            <a href="{{ asset('storage/' . $mov->archivo) }}" target="_blank">
+                           <a href="{{ route('movimientos.archivo', $mov->id) }}" target="_blank">
                                 Ver PDF 📄
                             </a>
                         @endif

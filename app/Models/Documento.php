@@ -15,6 +15,14 @@ protected $fillable = [
     'fecha',
     'titulo',
     'descripcion',
-    'archivo'
+    'archivo',
+    'sujeto_id', // 👈 ESTE DEBE ESTAR
 ];
+
+public function sujeto()
+{
+    return $this->belongsTo(Sujeto::class);
+}
+
+
 }

@@ -64,3 +64,12 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
 require __DIR__.'/auth.php';
+
+Route::get('/movimientos/{id}/archivo', 
+    [ExpedienteController::class, 'verArchivo']
+)->name('movimientos.archivo');
+
+
+Route::get('/documentos/{id}/archivo', 
+    [ExpedienteController::class, 'verDocumento']
+)->name('documentos.archivo');

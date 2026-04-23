@@ -12,6 +12,7 @@ class Expediente extends Model
     'tipo_tramite',
     'matricula',
     'sede',
+    'asignado',
     'pretension_principal',
     'cuantia',
     'fecha_presentacion',

@@ -6,7 +6,8 @@ use App\Models\Expediente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-
+use App\Models\Movimiento;
+use App\Models\Documento;
 
 class ExpedienteController extends Controller
 {
@@ -61,6 +62,7 @@ public function index()
     'tipo_tramite' => $request->tipo_tramite,
     'matricula' => $request->matricula,
     'sede' => $request->sede,
+    'asignado' => $request->asignado,
     'pretension_principal' => $request->pretension_principal,
     'cuantia' => $request->cuantia,
     'fecha_presentacion' => $request->fecha_presentacion,
@@ -141,6 +143,7 @@ if (Auth::user()->role !== 'admin' && $expediente->user_id !== Auth::id()) {
         'tipo_tramite' => $request->tipo_tramite,
         'matricula' => $request->matricula,
         'sede' => $request->sede,
+        'asignado' => $request->asignado,
         'pretension_principal' => $request->pretension_principal,
         'cuantia' => $request->cuantia,
         'descripcion_proceso' => $request->descripcion_proceso,
@@ -183,7 +186,7 @@ public function storeMovimiento(Request $request, Expediente $expediente)
     $request->validate([
         'fecha' => 'required|date',
         'descripcion' => 'required',
-        'archivo' => 'nullable|file|mimes:pdf|max:2048',
+        'archivo' => 'nullable|file|mimes:pdf|max:10240',
     ]);
 
     $rutaArchivo = null;
@@ -200,21 +203,25 @@ public function storeMovimiento(Request $request, Expediente $expediente)
 
     return back()->with('success', 'Movimiento agregado');
 }
-
 public function storeDocumento(Request $request, Expediente $expediente)
 {
     $request->validate([
         'titulo' => 'required',
-        'archivo' => 'required|file|mimes:pdf|max:2048',
+        'archivo' => 'nullable|file|mimes:pdf|max:10240',
     ]);
 
-    $rutaArchivo = $request->file('archivo')->store('documentos', 'public');
+    $rutaArchivo = null;
+
+    if ($request->hasFile('archivo')) {
+        $rutaArchivo = $request->file('archivo')->store('documentos', 'public');
+    }
 
     $expediente->documentos()->create([
         'fecha' => $request->fecha,
         'titulo' => $request->titulo,
         'descripcion' => $request->descripcion,
         'archivo' => $rutaArchivo,
+        'sujeto_id' => $request->sujeto_id ?? null,
     ]);
 
     return back()->with('success', 'Documento agregado');
@@ -231,6 +238,43 @@ public function updateEstado(Request $request, Expediente $expediente)
     ]);
 
     return back()->with('success', 'Estado actualizado');
+}
+
+
+public function verArchivo($id)
+{
+    $movimiento = Movimiento::findOrFail($id);
+
+    if (!$movimiento->archivo) {
+        abort(404);
+    }
+
+    $path = storage_path('app/public/' . $movimiento->archivo);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+}
+
+
+
+public function verDocumento($id)
+{
+    $doc = Documento::findOrFail($id);
+
+    if (!$doc->archivo) {
+        abort(404);
+    }
+
+    $path = storage_path('app/public/' . $doc->archivo);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
 }
 
 }
