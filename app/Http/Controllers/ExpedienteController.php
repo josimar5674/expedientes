@@ -69,8 +69,9 @@ public function index()
     'descripcion_proceso' => $request->descripcion_proceso,
 ]);
 
-    return redirect()->route('expedientes.create')
-        ->with('success', 'Expediente guardado correctamente');
+  return redirect()
+    ->route('expedientes.index')
+    ->with('success', 'Expediente creado correctamente');
     }
 
     /**

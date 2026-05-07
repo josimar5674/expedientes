@@ -4,6 +4,82 @@
 @extends('layouts.app')
 @section('content')
 
+
+<style>
+
+html, body {
+    min-height: 100%;
+}
+
+.main-container{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:320px;
+    border-right:1px solid #ddd;
+
+    position:sticky;
+    top:0;
+
+    height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:hidden;
+}
+
+/* Scroll SOLO lista expedientes */
+.exp-list{
+    flex:1;
+    overflow-y:auto;
+    padding-right:5px;
+}
+
+/* CONTENIDO GENERAL */
+.content{
+    flex:1;
+    overflow-y:auto;
+    padding:15px;
+}
+
+/* PANEL DOBLE */
+.panel-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    align-items:start;
+}
+
+/* PANEL CON SCROLL */
+.scroll-panel{
+    max-height:450px;
+    overflow-y:auto;
+}
+
+/* MOVIMIENTOS */
+
+/* SCROLL BONITO */
+.scroll-panel::-webkit-scrollbar,
+.exp-list::-webkit-scrollbar,
+.content::-webkit-scrollbar,
+.movimientos-panel::-webkit-scrollbar{
+    width:8px;
+}
+
+.scroll-panel::-webkit-scrollbar-thumb,
+.exp-list::-webkit-scrollbar-thumb,
+.content::-webkit-scrollbar-thumb,
+.movimientos-panel::-webkit-scrollbar-thumb{
+    background:#999;
+    border-radius:10px;
+}
+
+</style>
+
 <script>
 function activarEdicion() {
     document.getElementById('modo-vista').style.display = 'none';
@@ -243,11 +319,10 @@ function toggleForm(id) {
             </div>
 
         
-<div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-
+<div class="panel-grid">
     <!-- 👥 SUJETOS -->
-   <div class="bg-white dark:bg-gray-800 p-4">
-        <h3>👥 Sujetos</h3>
+<div class="bg-white dark:bg-gray-800 p-4 scroll-panel">
+            <h3>👥 Sujetos</h3>
 
          <form method="POST" action="{{ route('expedientes.sujetos.store', $expedienteSeleccionado->id) }}">
                     @csrf
@@ -271,20 +346,23 @@ function toggleForm(id) {
                 <br>
 @foreach ($expedienteSeleccionado->sujetos as $sujeto)
 
-<div class="bg-white dark:bg-gray-700 p-4 rounded mb-3 shadow-sm">
+<div class="bg-gray-50 dark:bg-gray-700 
+            text-gray-900 dark:text-gray-100
+            p-4 rounded mb-3 shadow-sm border
+            border-gray-200 dark:border-gray-600">
 
     <!-- INFO DEL SUJETO -->
     <div class="mb-2">
-        <strong class="text-sm text-blue-600">
+        <strong class="text-gray-500 dark:text-gray-300">
             {{ strtoupper($sujeto->tipo) }}
         </strong><br>
 
-        <span class="font-semibold">
+        <span class="text-gray-500 dark:text-gray-300">
             {{ $sujeto->nombre }}
         </span><br>
 
-        <small class="text-gray-500">
-            ID: {{ $sujeto->identificacion ?? '—' }} |
+<small class="text-gray-500 dark:text-gray-300">
+                ID: {{ $sujeto->identificacion ?? '—' }} |
             CAH: {{ $sujeto->cah ?? '—' }}
         </small>
     </div>
@@ -336,8 +414,7 @@ function toggleForm(id) {
 @endforeach    </div>
 
     <!-- 📎 DOCUMENTOS -->
-<div class="bg-white dark:bg-gray-800 p-4">
-    
+<div class="bg-white dark:bg-gray-800 p-4 scroll-panel">    
 
                  <h3>⚖️ Procuración y Documentos</h3>
 
@@ -350,17 +427,18 @@ function toggleForm(id) {
                        <input type="date" name="fecha" class="border p-2 rounded w-full bg-white text-black dark:bg-gray-700 dark:text-white">
                         <input type="text" name="titulo" class="border p-2 rounded w-full bg-white text-black dark:bg-gray-700 dark:text-white" placeholder="Título">
                         <input type="file" name="archivo" class="border p-2 rounded w-full bg-white text-black dark:bg-gray-700 dark:text-white">
-                     <div style="grid-column: span 2;">
+                 <div style="grid-column: 1 / -1; width:100%;">
                     <label class="text-sm text-gray-600 dark:text-gray-300">
                         Descripción
                     </label>
 
-                    <textarea name="descripcion" rows="3"
-                        class="border p-2 rounded w-full 
-                        bg-white text-black 
-                        dark:bg-gray-700 dark:text-white dark:border-gray-600
-                        resize-none focus:ring-2 focus:ring-blue-400"
-                        placeholder="Detalle..."></textarea>
+                   <textarea name="descripcion"
+    rows="3"
+    class="border p-2 rounded w-full
+    bg-white text-black 
+    dark:bg-gray-700 dark:text-white dark:border-gray-600
+    resize-none focus:ring-2 focus:ring-blue-400"
+    placeholder="Detalle..."></textarea>
                 </div>
                     </div>
 
@@ -393,7 +471,7 @@ function toggleForm(id) {
 
 
             <!-- 📜 MOVIMIENTOS -->
-          <div class="bg-white dark:bg-gray-800 p-4">
+          <div class="bg-white dark:bg-gray-800 p-4 scroll-panel">
                 <h3>📜 Movimientos</h3>
 
                 <form method="POST" 
