@@ -17,7 +17,8 @@ class Expediente extends Model
     'cuantia',
     'fecha_presentacion',
     'descripcion_proceso',
-    'estado'
+    'estado',
+      'permite_edicion',
 ];
 
 public function user()

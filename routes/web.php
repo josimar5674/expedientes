@@ -2,6 +2,7 @@
 use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PerfilController;
 
 Route::get('/', function () {
     return auth()->check()
@@ -73,3 +74,36 @@ Route::get('/movimientos/{id}/archivo',
 Route::get('/documentos/{id}/archivo', 
     [ExpedienteController::class, 'verDocumento']
 )->name('documentos.archivo');
+
+Route::put('/sujetos/{sujeto}', 
+    [ExpedienteController::class, 'updateSujeto'])
+    ->name('sujetos.update');
+
+Route::delete('/documentos/{id}',
+    [ExpedienteController::class, 'destroyDocumento'])
+    ->name('documentos.destroy');
+
+    Route::delete('/sujetos/{sujeto}',
+    [ExpedienteController::class, 'destroySujeto'])
+    ->name('sujetos.destroy');
+
+    Route::put('/documentos/{documento}',
+    [ExpedienteController::class, 'updateDocumento'])
+    ->name('documentos.update');
+
+Route::delete('/documentos/{documento}',
+    [ExpedienteController::class, 'destroyDocumento'])
+    ->name('documentos.destroy');
+
+    Route::put('/movimientos/{movimiento}',
+    [ExpedienteController::class, 'updateMovimiento'])
+    ->name('movimientos.update');
+
+Route::delete('/movimientos/{movimiento}',
+    [ExpedienteController::class, 'destroyMovimiento'])
+    ->name('movimientos.destroy');
+
+    Route::delete(
+    '/expedientes/{expediente}',
+    [ExpedienteController::class, 'destroy']
+)->name('expedientes.destroy');

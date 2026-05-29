@@ -26,4 +26,7 @@ class Sujeto extends Model
         'cah',
         'expediente_id' // 👈 recomendado agregarlo
     ];
+
+
+    
 }
