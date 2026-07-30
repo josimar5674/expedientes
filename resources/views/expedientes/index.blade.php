@@ -256,123 +256,123 @@
    SIDEBAR
    ========================== */
 
-.sidebar{
-    width:320px;
-    height:100vh;
+    .sidebar {
+        width: 200px;
+        height: 100vh;
 
-    background:#f8fafc;
-    border-right:1px solid #e5e7eb;
+        background: #f8fafc;
+        border-right: 1px solid #e5e7eb;
 
-    display:flex;
-    flex-direction:column;
-}
+        display: flex;
+        flex-direction: column;
+    }
 
-.dark .sidebar{
-    background:#111827;
-    border-color:#374151;
-}
+    .dark .sidebar {
+        background: #111827;
+        border-color: #374151;
+    }
 
-.sidebar-header{
-    padding:15px;
-    border-bottom:1px solid #e5e7eb;
-}
+    .sidebar-header {
+        padding: 15px;
+        border-bottom: 1px solid #e5e7eb;
+    }
 
-.dark .sidebar-header{
-    border-color:#374151;
-}
+    .dark .sidebar-header {
+        border-color: #374151;
+    }
 
-.sidebar-title{
-    font-size:18px;
-    font-weight:700;
-    margin-bottom:10px;
-}
+    .sidebar-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
 
-.sidebar-search{
-    width:100%;
-    padding:10px 12px;
+    .sidebar-search {
+        width: 100%;
+        padding: 10px 12px;
 
-    border-radius:10px;
-    border:1px solid #d1d5db;
+        border-radius: 10px;
+        border: 1px solid #d1d5db;
 
-    outline:none;
-}
+        outline: none;
+    }
 
-.sidebar-search:focus{
-    border-color:#0A84FF;
-}
+    .sidebar-search:focus {
+        border-color: #0A84FF;
+    }
 
-.dark .sidebar-search{
-    background:#1f2937;
-    color:white;
-    border-color:#374151;
-}
+    .dark .sidebar-search {
+        background: #1f2937;
+        color: white;
+        border-color: #374151;
+    }
 
-.expediente-card{
-    margin:10px;
-    padding:12px;
+    .expediente-card {
+        margin: 10px;
+        padding: 12px;
 
-    border-radius:12px;
+        border-radius: 12px;
 
-    background:white;
-    border:1px solid #e5e7eb;
+        background: white;
+        border: 1px solid #e5e7eb;
 
-    transition:.2s;
-}
+        transition: .2s;
+    }
 
-.dark .expediente-card{
-    background:#1f2937;
-    border-color:#374151;
-}
+    .dark .expediente-card {
+        background: #1f2937;
+        border-color: #374151;
+    }
 
-.expediente-card:hover{
-    transform:translateY(-1px);
+    .expediente-card:hover {
+        transform: translateY(-1px);
 
-    box-shadow:
-        0 4px 15px rgba(0,0,0,.08);
-}
+        box-shadow:
+            0 4px 15px rgba(0, 0, 0, .08);
+    }
 
-.expediente-card.active{
-    border-left:4px solid #0A84FF;
-    background:#eff6ff;
-}
+    .expediente-card.active {
+        border-left: 4px solid #0A84FF;
+        background: #eff6ff;
+    }
 
-.dark .expediente-card.active{
-    background:#172554;
-}
+    .dark .expediente-card.active {
+        background: #172554;
+    }
 
-/* BADGES */
+    /* BADGES */
 
-.estado-badge{
-    font-size:11px;
-    padding:4px 8px;
-    border-radius:999px;
-    font-weight:600;
-}
+    .estado-badge {
+        font-size: 11px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-weight: 600;
+    }
 
-.estado-pendiente{
-    background:#fef3c7;
-    color:#92400e;
-}
+    .estado-pendiente {
+        background: #fef3c7;
+        color: #92400e;
+    }
 
-.estado-proceso{
-    background:#dbeafe;
-    color:#1d4ed8;
-}
+    .estado-proceso {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
 
-.estado-audiencia{
-    background:#ede9fe;
-    color:#6d28d9;
-}
+    .estado-audiencia {
+        background: #ede9fe;
+        color: #6d28d9;
+    }
 
-.estado-resuelto{
-    background:#dcfce7;
-    color:#166534;
-}
+    .estado-resuelto {
+        background: #dcfce7;
+        color: #166534;
+    }
 
-.estado-cerrado{
-    background:#e5e7eb;
-    color:#374151;
-}
+    .estado-cerrado {
+        background: #e5e7eb;
+        color: #374151;
+    }
 </style>
 
 <script>
@@ -423,71 +423,71 @@ $expedienteSeleccionado->user_id === auth()->id()
 <div class="main-container">
 
     <!-- 🔹 SIDEBAR -->
-<div class="sidebar">
+    <div class="sidebar">
 
-    <div class="sidebar-header">
+        <div class="sidebar-header">
 
-        <h3 class="sidebar-title">
-            📂 Expedientes
-        </h3>
+            <h3 class="sidebar-title">
+                📂 Expedientes
+            </h3>
 
-        <input
-            type="text"
-            id="buscarExpediente"
-            placeholder="Buscar expediente..."
-            class="sidebar-search">
+            <input
+                type="text"
+                id="buscarExpediente"
+                placeholder="Buscar expediente..."
+                class="sidebar-search">
 
-    </div>
+        </div>
 
-    <div class="exp-list">
+        <div class="exp-list">
 
-        @foreach ($expedientes as $exp)
+            @foreach ($expedientes as $exp)
 
-        <a href="{{ route('expedientes.show', $exp->id) }}"
-           class="block">
+            <a href="{{ route('expedientes.show', $exp->id) }}"
+                class="block">
 
-            <div class="exp-item expediente-card
+                <div class="exp-item expediente-card
                 {{ isset($expedienteSeleccionado) && $expedienteSeleccionado->id == $exp->id ? 'active' : '' }}">
 
-                <div class="font-semibold text-sm">
-                    #{{ $exp->numero_expediente }}
-                </div>
+                    <div class="font-semibold text-sm">
+                        #{{ $exp->numero_expediente }}
+                    </div>
 
-                <div class="text-xs opacity-80">
-                    {{ $exp->tipo_tramite }}
-                </div>
+                    <div class="text-xs opacity-80">
+                        {{ $exp->tipo_tramite }}
+                    </div>
 
-                <div class="text-xs opacity-80">
-                    {{ $exp->user->name ?? 'N/A' }}
-                </div>
+                    <div class="text-xs opacity-80">
+                        {{ $exp->user->name ?? 'N/A' }}
+                    </div>
 
-                <div class="mt-2">
+                    <div class="mt-2">
 
-                    @php
+                        @php
                         $estadoColor = [
-                            'pendiente' => 'estado-pendiente',
-                            'en_proceso' => 'estado-proceso',
-                            'audiencia' => 'estado-audiencia',
-                            'resuelto' => 'estado-resuelto',
-                            'cerrado' => 'estado-cerrado',
+                        'pendiente' => 'estado-pendiente',
+                        'en_proceso' => 'estado-proceso',
+                        'audiencia' => 'estado-audiencia',
+                        'resuelto' => 'estado-resuelto',
+                        'cerrado' => 'estado-cerrado',
                         ][$exp->estado] ?? 'estado-pendiente';
-                    @endphp
+                        @endphp
 
-                    <span class="estado-badge {{ $estadoColor }}">
-                        {{ strtoupper($exp->estado) }}
-                    </span>
+                        <span class="estado-badge {{ $estadoColor }}">
+                            {{ strtoupper($exp->estado) }}
+                        </span>
+
+                    </div>
 
                 </div>
 
-            </div>
+            </a>
 
-        </a>
+            @endforeach
 
-        @endforeach
+        </div>
 
     </div>
-
-</div>
 
     <!-- 🔸 CONTENT -->
     <div class="content">
@@ -516,7 +516,7 @@ $expedienteSeleccionado->user_id === auth()->id()
                 ✏️ Editar
             </button>
 
-            <!-- 👀 MODO VISTA -->
+            <!-- MODO VISTA -->
             <div id="modo-vista" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
 
                 <p><strong>Expediente:</strong> {{ $expedienteSeleccionado->numero_expediente }}</p>
@@ -683,35 +683,35 @@ $expedienteSeleccionado->user_id === auth()->id()
 
                     @if(auth()->user()->role === 'admin')
 
-<button
-    type="button"
-    onclick="if(confirm('¿Está seguro que desea eliminar este expediente? Esta acción eliminará sujetos, documentos y movimientos asociados.')) document.getElementById('delete-expediente').submit();"
-    class="bg-gray-800 hover:bg-black text-white px-4 py-2 rounded">
+                    <button
+                        type="button"
+                        onclick="if(confirm('¿Está seguro que desea eliminar este expediente? Esta acción eliminará sujetos, documentos y movimientos asociados.')) document.getElementById('delete-expediente').submit();"
+                        class="bg-gray-800 hover:bg-black text-white px-4 py-2 rounded">
 
-    🗑️ Eliminar Expediente
+                        🗑️ Eliminar Expediente
 
-</button>
-
-
+                    </button>
 
 
 
-@endif
+
+
+                    @endif
 
                 </div>
 
             </form>
 
             <form id="delete-expediente"
-    method="POST"
-    action="{{ route('expedientes.destroy', $expedienteSeleccionado->id) }}"
-    style="display:none;">
+                method="POST"
+                action="{{ route('expedientes.destroy', $expedienteSeleccionado->id) }}"
+                style="display:none;">
 
-    @csrf
-    @method('DELETE')
-    
+                @csrf
+                @method('DELETE')
 
-</form>
+
+            </form>
 
         </div>
 
@@ -808,17 +808,14 @@ $expedienteSeleccionado->user_id === auth()->id()
 
 
                 {{-- LISTA SUJETOS --}}
-                @foreach ($expedienteSeleccionado->sujetos as $sujeto)
+                     @foreach ($expedienteSeleccionado->sujetos as $sujeto)
 
-                <div class="bg-gray-50 dark:bg-gray-700
-        text-gray-900 dark:text-gray-100
-        p-4 rounded mb-3 shadow-sm border
-        border-gray-200 dark:border-gray-600">
+                             <div class="list-item bg-white text-black dark:bg-gray-700 dark:text-white p-2 rounded mb-2">
 
                     {{-- INFO --}}
                     <div class="mb-2">
 
-                        <strong class="text-blue-600 dark:text-blue-400">
+                        <strong  class="text-gray-500 dark:text-gray-300">
                             {{ strtoupper($sujeto->tipo) }}
                         </strong>
 
@@ -847,9 +844,9 @@ $expedienteSeleccionado->user_id === auth()->id()
                         <button type="button"
                             onclick="toggleEdit('{{ $sujeto->id }}')"
                             class="inline-flex items-center
-                bg-yellow-500 hover:bg-yellow-600
-                text-white px-2 py-1 rounded text-sm
-                w-auto">
+                            bg-yellow-500 hover:bg-yellow-600
+                            text-white px-2 py-1 rounded text-sm
+                            w-auto">
 
                             ✏️ Editar
 
@@ -859,10 +856,10 @@ $expedienteSeleccionado->user_id === auth()->id()
                         {{-- SUBIR DOC --}}
                         <button type="button"
                             onclick="toggleForm('form-editar-sujeto-{{ $sujeto->id }}')"
-                            class="inline-flex items-center
-                bg-green-500 hover:bg-green-600
-                text-white px-2 py-1 rounded text-sm
-                w-auto">
+                                        class="inline-flex items-center
+                            bg-green-500 hover:bg-green-600
+                            text-white px-2 py-1 rounded text-sm
+                            w-auto">
 
                             +📄
 
@@ -911,8 +908,8 @@ $expedienteSeleccionado->user_id === auth()->id()
 
                                 <select name="tipo"
                                     class="border p-2 rounded w-full
-                        bg-white text-black
-                        dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                                        bg-white text-black
+                                        dark:bg-gray-700 dark:text-white dark:border-gray-600">
 
                                     <option value="sujeto activo"
                                         {{ $sujeto->tipo == 'sujeto activo' ? 'selected' : '' }}>
@@ -941,7 +938,7 @@ $expedienteSeleccionado->user_id === auth()->id()
                             <div class="flex gap-2 mt-2">
 
                                 <button class="bg-blue-500 hover:bg-blue-600
-        text-white px-3 py-1 rounded text-sm">
+                                     text-white px-3 py-1 rounded text-sm">
 
                                     Guardar Cambios
 
@@ -950,7 +947,7 @@ $expedienteSeleccionado->user_id === auth()->id()
                                 <button type="button"
                                     onclick="if(confirm('¿Está seguro que desea eliminar este registro?')) document.getElementById('delete-sujeto-{{ $sujeto->id }}').submit();"
                                     class="bg-red-500 hover:bg-red-600
-        text-white px-3 py-1 rounded text-sm">
+                                        text-white px-3 py-1 rounded text-sm">
 
                                     🗑️ Eliminar Sujeto
 
@@ -976,9 +973,9 @@ $expedienteSeleccionado->user_id === auth()->id()
                             <a href="{{ route('documentos.archivo', $doc->id) }}"
                                 target="_blank"
                                 class="bg-gray-200 dark:bg-gray-600
-        text-gray-800 dark:text-white
-        px-2 py-1 rounded text-sm
-        hover:bg-gray-300 dark:hover:bg-gray-500">
+                                    text-gray-800 dark:text-white
+                                    px-2 py-1 rounded text-sm
+                                    hover:bg-gray-300 dark:hover:bg-gray-500">
 
                                 📄 {{ $doc->titulo }}
 
@@ -1342,34 +1339,32 @@ $expedienteSeleccionado->user_id === auth()->id()
 <br>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
 
-document.addEventListener('DOMContentLoaded', function(){
+        const buscador =
+            document.getElementById('buscarExpediente');
 
-    const buscador =
-        document.getElementById('buscarExpediente');
+        buscador.addEventListener('keyup', function() {
 
-    buscador.addEventListener('keyup', function(){
+            const texto =
+                this.value.toLowerCase();
 
-        const texto =
-            this.value.toLowerCase();
+            document.querySelectorAll('.expediente-card')
+                .forEach(card => {
 
-        document.querySelectorAll('.expediente-card')
-            .forEach(card => {
+                    const contenido =
+                        card.innerText.toLowerCase();
 
-                const contenido =
-                    card.innerText.toLowerCase();
+                    card.parentElement.style.display =
+                        contenido.includes(texto) ?
+                        'block' :
+                        'none';
 
-                card.parentElement.style.display =
-                    contenido.includes(texto)
-                    ? 'block'
-                    : 'none';
+                });
 
-            });
+        });
 
     });
-
-});
-
 </script>
 
 @endsection
